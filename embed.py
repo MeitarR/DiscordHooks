@@ -38,9 +38,35 @@ class BaseSerializable(ABC):
 
 
 class EmbedFooter(BaseSerializable):
+    __items__ = ('text', 'icon_url')
+
+    def __init__(self, text: str=None, icon_url: str=None):
+        self.text = text
+        self.icon_url = icon_url
+
+    @property
+    def text(self):
+        return self._text
+
+    @text.setter
+    def text(self, text):
+        if text is not None and not isinstance(text, str):
+            raise TypeError('text must be string')
+        self._text = text
+
+    @property
+    def icon_url(self):
+        return self._icon_url
+
+    @icon_url.setter
+    def icon_url(self, icon_url):
+        if icon_url is not None and not isinstance(icon_url, str):
+            raise TypeError('icon_url must be string')
+        self._icon_url = icon_url
+
     @staticmethod
     def from_dict(obj):
-        pass
+        return EmbedFooter(**obj)
 
 
 class EmbedImage(BaseSerializable):
@@ -95,7 +121,7 @@ class EmbedAuthor(BaseSerializable):
 
     @staticmethod
     def from_dict(obj):
-        pass
+        return EmbedAuthor(**obj)
 
 
 class EmbedField(BaseSerializable):
