@@ -29,7 +29,7 @@ class BaseSerializable(ABC):
 
     @property
     def dict(self):
-        return {key: getattr(self, key) for key in self.__items__}
+        return {key: getattr(self, key) for key in self.__items__ if getattr(self, key) is not None}
 
     @staticmethod
     @abstractmethod
@@ -38,7 +38,6 @@ class BaseSerializable(ABC):
 
 
 class EmbedFooter(BaseSerializable):
-
     @staticmethod
     def from_dict(obj):
         pass
@@ -103,10 +102,6 @@ class EmbedField(BaseSerializable):
     @staticmethod
     def from_dict(obj):
         pass
-
-    @property
-    def dict(self):
-        return {}
 
 
 class Embed(BaseSerializable):
@@ -248,7 +243,3 @@ class Embed(BaseSerializable):
     @staticmethod
     def from_dict(obj):
         return Embed(**obj)
-
-    @property
-    def dict(self):
-        return {key: getattr(self, key) for key in self.__items__ if getattr(self, key) is not None}
