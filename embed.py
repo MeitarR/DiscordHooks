@@ -70,9 +70,24 @@ class EmbedFooter(BaseSerializable):
 
 
 class EmbedImage(BaseSerializable):
+    __items__ = ('url',)
+
+    def __init__(self, url: str = None):
+        self.url = url
+
+    @property
+    def url(self):
+        return self._url
+
+    @url.setter
+    def url(self, url):
+        if url is not None and not isinstance(url, str):
+            raise TypeError('url must be string')
+        self._url = url
+
     @staticmethod
     def from_dict(obj):
-        pass
+        return EmbedImage(**obj)
 
 
 class EmbedThumbnail(BaseSerializable):
