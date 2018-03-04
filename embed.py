@@ -40,7 +40,7 @@ class BaseSerializable(ABC):
 class EmbedFooter(BaseSerializable):
     __items__ = ('text', 'icon_url')
 
-    def __init__(self, text: str=None, icon_url: str=None):
+    def __init__(self, text: str = None, icon_url: str = None):
         self.text = text
         self.icon_url = icon_url
 
@@ -150,9 +150,8 @@ class Embed(BaseSerializable):
                  'footer', 'image', 'thumbnail', 'author', 'fields')
 
     def __init__(self, title: str = None, description: str = None, url: str = None, timestamp: datetime = None,
-                 color: int = None,
-                 footer: EmbedFooter = None, image: EmbedImage = None, thumbnail: EmbedThumbnail = None,
-                 author: EmbedAuthor = None, fields: [EmbedField] = None):
+                 color: int = None, footer: EmbedFooter = None, image: EmbedImage = None,
+                 thumbnail: EmbedThumbnail = None, author: EmbedAuthor = None, fields: [EmbedField] = None):
 
         self.title = title
         self.description = description
