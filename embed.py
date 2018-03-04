@@ -91,9 +91,24 @@ class EmbedImage(BaseSerializable):
 
 
 class EmbedThumbnail(BaseSerializable):
+    __items__ = ('url',)
+
+    def __init__(self, url: str = None):
+        self.url = url
+
+    @property
+    def url(self):
+        return self._url
+
+    @url.setter
+    def url(self, url):
+        if url is not None and not isinstance(url, str):
+            raise TypeError('url must be string')
+        self._url = url
+
     @staticmethod
     def from_dict(obj):
-        pass
+        return EmbedThumbnail(**obj)
 
 
 class EmbedAuthor(BaseSerializable):
@@ -140,9 +155,35 @@ class EmbedAuthor(BaseSerializable):
 
 
 class EmbedField(BaseSerializable):
+    __items__ = ('name', 'value')
+
+    def __init__(self, name: str = None, value: str = None):
+        self.name = name
+        self.value = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        if name is not None and not isinstance(name, str):
+            raise TypeError('name must be string')
+        self._name = name
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        if value is not None and not isinstance(value, str):
+            raise TypeError('value must be string')
+        self._value = value
+
     @staticmethod
     def from_dict(obj):
-        pass
+        return EmbedField(**obj)
 
 
 class Embed(BaseSerializable):
