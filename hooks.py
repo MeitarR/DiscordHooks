@@ -4,11 +4,10 @@ import json
 import logging
 import requests
 
-from embed import BaseSerializable, Embed, datetime
-
+from .embed import BaseSerializable, Embed, datetime
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.ERROR)
 
 # create console handler and set level to debug
 ch = logging.StreamHandler()
