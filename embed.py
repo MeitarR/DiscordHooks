@@ -52,6 +52,8 @@ class EmbedFooter(BaseSerializable):
     def text(self, text):
         if text is not None and not isinstance(text, str):
             raise TypeError('text must be string')
+        if len(text) > 2048:
+            raise ValueError('text length must be up to 2048 characters')
         self._text = text
 
     @property
@@ -127,6 +129,8 @@ class EmbedAuthor(BaseSerializable):
     def name(self, name):
         if name is not None and not isinstance(name, str):
             raise TypeError('name must be string')
+        if len(name) > 256:
+            raise ValueError('name length must be up to 256 characters')
         self._name = name
 
     @property
@@ -169,6 +173,8 @@ class EmbedField(BaseSerializable):
     def name(self, name):
         if name is not None and not isinstance(name, str):
             raise TypeError('name must be string')
+        if len(name) > 256:
+            raise ValueError('name length must be up to 256 characters')
         self._name = name
 
     @property
@@ -179,6 +185,8 @@ class EmbedField(BaseSerializable):
     def value(self, value):
         if value is not None and not isinstance(value, str):
             raise TypeError('value must be string')
+        if len(value) > 1024:
+            raise ValueError('value length must be up to 1024 characters')
         self._value = value
 
     @staticmethod
