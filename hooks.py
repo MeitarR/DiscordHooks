@@ -33,7 +33,7 @@ def encode_complex(obj):
     raise TypeError(repr(obj) + " is not JSON serializable")
 
 
-class DiscordWebHook:
+class Hook:
     __items__ = ('content', 'username', 'avatar_url', 'tts', 'file', 'embeds')
 
     def __init__(self, hook_url: str = None, content: str = None, username: str = None, avatar_url: str = None,
