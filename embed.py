@@ -4,6 +4,26 @@ from datetime import datetime
 from abc import ABC, abstractmethod
 
 
+class Color:
+    White = 0xFFFFFF
+    Black = 0x111111
+    Navy = 0x001f3f
+    Blue = 0x0074D9
+    Aqua = 0x7FDBFF
+    Teal = 0x39CCCC
+    Olive = 0x3D9970
+    Green = 0x2ECC40
+    Lime = 0x01FF70
+    Yellow = 0xFFDC00
+    Orange = 0xFF851B
+    Red = 0xFF4136
+    Maroon = 0x85144b
+    Fuchsia = 0xF012BE
+    Purple = 0xB10DC9
+    Gray = 0xAAAAAA
+    Silver = 0xDDDDDD
+
+
 class BaseSerializable(ABC):
     __items__ = ()
 
