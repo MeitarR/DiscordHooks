@@ -1,5 +1,11 @@
 # DiscordHooks
 A python module for easily execute discord webhooks with embeds and more
+
+## Installation
+```bash
+pip install DiscordHooks
+```
+
 ## Examples
 ```python
 from DiscordHooks import Hook, Embed, EmbedAuthor, Color
