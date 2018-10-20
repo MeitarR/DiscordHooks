@@ -14,7 +14,7 @@ from datetime import datetime
 webhook = 'your webhook url from discord'
 
 embed = Embed(title='look here', url='https://github.com/MeitarR', description="some embed text here :pencil:",
-              timestamp=datetime.now(), color=Color.Aqua, author=EmbedAuthor(name="Meitar"))
+              timestamp=datetime.utcnow(), color=Color.Aqua, author=EmbedAuthor(name="Meitar"))
 
 Hook(hook_url=webhook, username="Meitar's webhook",
      avatar_url='https://avatars1.githubusercontent.com/u/14138694',
