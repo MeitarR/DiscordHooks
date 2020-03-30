@@ -149,6 +149,76 @@ class EmbedImage(BaseSerializable):
         return EmbedImage(**obj)
 
 
+class EmbedVideo(BaseSerializable):
+    """Represent the Embed Video according to Discord Developer Documentation for webhooks
+    https://discordapp.com/developers/docs/resources/channel#embed-object-embed-video-structure
+
+    All attributes are optionals
+    Attributes:
+        url (str): source url of video (only supports http(s))
+        height (int): 	height of video
+        width (int): width of video
+    """
+    __items__ = ('url', 'height', 'width')
+
+    def __init__(self, url: str = None, height: int = None, width: int = None):
+        """Initiate the EmbedVideo object
+
+        Args:
+            url (str): source url of video (only supports http(s))
+            height (int): 	height of video
+            width (int): width of video
+        """
+        self.url = url
+        self.height = height
+        self.width = width
+
+    @property
+    def url(self) -> str:
+        """str: source url of video (only supports http(s))"""
+        return self._url
+
+    @url.setter
+    def url(self, url: str):
+        if url is not None and not isinstance(url, str):
+            raise TypeError('url must be string')
+        self._url = url
+
+    @property
+    def height(self) -> int:
+        """int: height of video"""
+        return self._height
+
+    @height.setter
+    def height(self, height: int):
+        if height is not None and not isinstance(height, int):
+            raise TypeError('height must be int')
+        self._height = height
+
+    @property
+    def width(self) -> int:
+        """int: width of video"""
+        return self._width
+
+    @width.setter
+    def width(self, width: int):
+        if width is not None and not isinstance(width, int):
+            raise TypeError('width must be int')
+        self._width = width
+
+    @staticmethod
+    def from_dict(obj: dict) -> 'EmbedVideo':
+        """Abstract method for creating the object from dict
+
+        Args:
+            obj (dict): The dict the returned object will build from.
+
+        Returns:
+            EmbedVideo: The created object.
+        """
+        return EmbedVideo(**obj)
+
+
 class EmbedThumbnail(BaseSerializable):
     """Represent the Embed Thumbnail according to Discord Developer Documentation for webhooks
     https://discordapp.com/developers/docs/resources/channel#embed-object-embed-thumbnail-structure
@@ -323,6 +393,7 @@ class EmbedField(BaseSerializable):
 class Embed(BaseSerializable):
     """Represent the Embed according to Discord Developer Documentation for webhooks
     https://discordapp.com/developers/docs/resources/channel#embed-object
+        All attributes are optional
 
     Attributes:
         title (str): title of embed
@@ -333,15 +404,17 @@ class Embed(BaseSerializable):
         footer (EmbedFooter): footer object
         image (EmbedImage): image object
         thumbnail (EmbedThumbnail): thumbnail object
+        video (EmbedVideo): video object
         author (EmbedAuthor): author object
         fields ([EmbedField]): field objects list
     """
     __items__ = ('title', 'description', 'url', 'timestamp', 'color',
-                 'footer', 'image', 'thumbnail', 'author', 'fields')
+                 'footer', 'image', 'thumbnail', 'video', 'author', 'fields')
 
     def __init__(self, title: str = None, description: str = None, url: str = None, timestamp: datetime = None,
                  color: int = None, footer: EmbedFooter = None, image: EmbedImage = None,
-                 thumbnail: EmbedThumbnail = None, author: EmbedAuthor = None, fields: [EmbedField] = None):
+                 thumbnail: EmbedThumbnail = None, video: EmbedVideo = None, author: EmbedAuthor = None,
+                 fields: [EmbedField] = None):
         """Initiate the Embed object
 
         Args:
@@ -353,6 +426,7 @@ class Embed(BaseSerializable):
             footer (EmbedFooter): footer object
             image (EmbedImage): image object
             thumbnail (EmbedThumbnail): thumbnail object
+            video (EmbedVideo): video object
             author (EmbedAuthor): author object
             fields ([EmbedField]): field objects list
         """
@@ -364,6 +438,7 @@ class Embed(BaseSerializable):
         self.footer = footer
         self.image = image
         self.thumbnail = thumbnail
+        self.video = video
         self.author = author
         self.fields = fields
 
@@ -376,7 +451,7 @@ class Embed(BaseSerializable):
     def title(self, title: str):
         if title is not None and not isinstance(title, str):
             raise TypeError('title must be string')
-        if len(title) > 256:
+        if isinstance(title, str) and len(title) > 256:
             raise ValueError('title length must be up to 256 characters')
         self._title = title
 
@@ -389,7 +464,7 @@ class Embed(BaseSerializable):
     def description(self, description: str):
         if description is not None and not isinstance(description, str):
             raise TypeError('description must be string')
-        if len(description) > 2048:
+        if isinstance(description, str) and len(description) > 2048:
             raise ValueError('description length must be up to 2048 characters')
         self._description = description
 
@@ -406,7 +481,7 @@ class Embed(BaseSerializable):
 
     @property
     def timestamp(self) -> datetime:
-        """datetime: timestamp of embed"""
+        """datetime: timestamp of embed content. ISO8601 timestamp	"""
         return self._timestamp
 
     @timestamp.setter
@@ -428,36 +503,47 @@ class Embed(BaseSerializable):
 
     @property
     def footer(self) -> EmbedFooter:
-        """EmbedFooter: footer object"""
+        """EmbedFooter: footer information, embed footer object"""
         return self._footer
 
     @footer.setter
     def footer(self, footer: EmbedFooter):
         if footer is not None and not isinstance(footer, EmbedFooter):
-            raise TypeError('footer must be EmbedFooter')
+            raise TypeError('footer must be EmbedFooter object')
         self._footer = footer
 
     @property
     def image(self) -> EmbedImage:
-        """EmbedImage: image object"""
+        """EmbedImage: image information, embed image object"""
         return self._image
 
     @image.setter
     def image(self, image: EmbedImage):
         if image is not None and not isinstance(image, EmbedImage):
-            raise TypeError('image must be EmbedImage')
+            raise TypeError('image must be EmbedImage object')
         self._image = image
 
     @property
     def thumbnail(self) -> EmbedThumbnail:
-        """EmbedThumbnail: thumbnail object"""
+        """EmbedThumbnail: thumbnail information, embed thumbnail object"""
         return self._thumbnail
 
     @thumbnail.setter
     def thumbnail(self, thumbnail: EmbedThumbnail):
         if thumbnail is not None and not isinstance(thumbnail, EmbedThumbnail):
-            raise TypeError('thumbnail must be EmbedThumbnail')
+            raise TypeError('thumbnail must be EmbedThumbnail object')
         self._thumbnail = thumbnail
+
+    @property
+    def video(self) -> EmbedVideo:
+        """EmbedVideo video information, embed video object"""
+        return self._video
+
+    @video.setter
+    def video(self, video: EmbedVideo):
+        if video is not None and not isinstance(video, EmbedVideo):
+            raise TypeError('video must be EmbedVideo object')
+        self._video = video
 
     @property
     def author(self) -> EmbedAuthor:
@@ -467,7 +553,7 @@ class Embed(BaseSerializable):
     @author.setter
     def author(self, author: EmbedAuthor):
         if author is not None and not isinstance(author, EmbedAuthor):
-            raise TypeError('author must be EmbedAuthor')
+            raise TypeError('author must be EmbedAuthor object')
         self._author = author
 
     @property
