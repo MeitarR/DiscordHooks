@@ -60,7 +60,7 @@ class EmbedFooter(BaseSerializable):
         icon_url (str): url of footer icon (only supports http(s))
         proxy_icon_url (str): a proxied url of footer icon
     """
-    __items__ = ('text', 'icon_url')
+    __items__ = ('text', 'icon_url', 'proxy_icon_url')
 
     def __init__(self, text: str, icon_url: str = None, proxy_icon_url: str = None):
         """Initiate the EmbedFooter object
@@ -126,22 +126,32 @@ class EmbedImage(BaseSerializable):
     """Represent the Embed Image according to Discord Developer Documentation for webhooks
     https://discordapp.com/developers/docs/resources/channel#embed-object-embed-image-structure
 
+    All attributes are optional
     Attributes:
-        url (str): source url of image (only supports http(s) and attachments)
+        url (str): source url of image (only supports http(s))
+        proxy_url (str): a proxied url of the image
+        height (int): height of image
+        width (int): width of image
     """
-    __items__ = ('url',)
+    __items__ = ('url', 'proxy_url', 'height', 'width')
 
-    def __init__(self, url: str = None):
+    def __init__(self, url: str = None, proxy_url: str = None, height: int = None, width: int = None):
         """Initiate the EmbedImage object
 
         Args:
-            url (str): source url of image (only supports http(s) and attachments)
+            url (str): source url of image (only supports http(s))
+            proxy_url (str): a proxied url of the image
+            height (int): height of image
+            width (int): width of image
         """
         self.url = url
+        self.proxy_url = proxy_url
+        self.height = height
+        self.width = width
 
     @property
     def url(self) -> str:
-        """str: source url of image (only supports http(s) and attachments)"""
+        """str: source url of image (only supports http(s))"""
         return self._url
 
     @url.setter
@@ -149,6 +159,39 @@ class EmbedImage(BaseSerializable):
         if url is not None and not isinstance(url, str):
             raise TypeError('url must be string')
         self._url = url
+
+    @property
+    def proxy_url(self) -> str:
+        """str: a proxied url of the image"""
+        return self._proxy_url
+
+    @proxy_url.setter
+    def proxy_url(self, proxy_url: str):
+        if proxy_url is not None and not isinstance(proxy_url, str):
+            raise TypeError('proxy_url must be string')
+        self._proxy_url = proxy_url
+
+    @property
+    def height(self) -> int:
+        """int: height of image"""
+        return self._height
+
+    @height.setter
+    def height(self, height: int):
+        if height is not None and not isinstance(height, int):
+            raise TypeError('height must be int')
+        self._height = height
+
+    @property
+    def width(self) -> int:
+        """int: width of image"""
+        return self._width
+
+    @width.setter
+    def width(self, width: int):
+        if width is not None and not isinstance(width, int):
+            raise TypeError('width must be int')
+        self._width = width
 
     @staticmethod
     def from_dict(obj: dict) -> 'EmbedImage':
