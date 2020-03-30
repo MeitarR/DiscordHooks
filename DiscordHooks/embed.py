@@ -260,6 +260,62 @@ class EmbedThumbnail(BaseSerializable):
         return EmbedThumbnail(**obj)
 
 
+class EmbedProvider(BaseSerializable):
+    """Represent the Embed Provider according to Discord Developer Documentation for webhooks
+    https://discordapp.com/developers/docs/resources/channel#embed-object-embed-provider-structure
+
+    All attributes are optional
+    Attributes:
+        name (str): name of provider
+        url (str): url of provider
+    """
+    __items__ = ('name', 'url',)
+
+    def __init__(self, name: str = None, url: str = None):
+        """Initiate the EmbedProvider object
+
+        Args:
+            name (str): name of provider
+            url (str): url of provider
+        """
+        self.name = name
+        self.url = url
+
+    @property
+    def name(self) -> str:
+        """str: name of provider"""
+        return self._name
+
+    @name.setter
+    def name(self, name: str):
+        if name is not None and not isinstance(name, str):
+            raise TypeError('name must be string')
+        self._name = name
+
+    @property
+    def url(self) -> str:
+        """str: url of provider"""
+        return self._url
+
+    @url.setter
+    def url(self, url: str):
+        if url is not None and not isinstance(url, str):
+            raise TypeError('url must be string')
+        self._url = url
+
+    @staticmethod
+    def from_dict(obj: dict) -> 'EmbedProvider':
+        """Abstract method for creating the object from dict
+
+        Args:
+            obj (dict): The dict the returned object will build from.
+
+        Returns:
+            EmbedProvider: The created object.
+        """
+        return EmbedProvider(**obj)
+
+
 class EmbedAuthor(BaseSerializable):
     """Represent the Embed Author according to Discord Developer Documentation for webhooks
     https://discordapp.com/developers/docs/resources/channel#embed-object-embed-author-structure
@@ -405,16 +461,18 @@ class Embed(BaseSerializable):
         image (EmbedImage): image object
         thumbnail (EmbedThumbnail): thumbnail object
         video (EmbedVideo): video object
+        provider (EmbedProvider): provider object
         author (EmbedAuthor): author object
         fields ([EmbedField]): field objects list
     """
     __items__ = ('title', 'description', 'url', 'timestamp', 'color',
-                 'footer', 'image', 'thumbnail', 'video', 'author', 'fields')
+                 'footer', 'image', 'thumbnail', 'video', 'provider',
+                 'author', 'fields')
 
     def __init__(self, title: str = None, description: str = None, url: str = None, timestamp: datetime = None,
                  color: int = None, footer: EmbedFooter = None, image: EmbedImage = None,
-                 thumbnail: EmbedThumbnail = None, video: EmbedVideo = None, author: EmbedAuthor = None,
-                 fields: [EmbedField] = None):
+                 thumbnail: EmbedThumbnail = None, video: EmbedVideo = None, provider: EmbedProvider = None,
+                 author: EmbedAuthor = None, fields: [EmbedField] = None):
         """Initiate the Embed object
 
         Args:
@@ -427,6 +485,7 @@ class Embed(BaseSerializable):
             image (EmbedImage): image object
             thumbnail (EmbedThumbnail): thumbnail object
             video (EmbedVideo): video object
+            provider (EmbedProvider): provider object
             author (EmbedAuthor): author object
             fields ([EmbedField]): field objects list
         """
@@ -439,6 +498,7 @@ class Embed(BaseSerializable):
         self.image = image
         self.thumbnail = thumbnail
         self.video = video
+        self.provider = provider
         self.author = author
         self.fields = fields
 
@@ -544,6 +604,17 @@ class Embed(BaseSerializable):
         if video is not None and not isinstance(video, EmbedVideo):
             raise TypeError('video must be EmbedVideo object')
         self._video = video
+
+    @property
+    def provider(self) -> EmbedProvider:
+        """EmbedProvider provider information, embed provider object"""
+        return self._provider
+
+    @provider.setter
+    def provider(self, provider: EmbedProvider):
+        if provider is not None and not isinstance(provider, EmbedProvider):
+            raise TypeError('provider must be EmbedProvider object')
+        self._provider = provider
 
     @property
     def author(self) -> EmbedAuthor:
