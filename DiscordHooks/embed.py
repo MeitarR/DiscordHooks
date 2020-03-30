@@ -56,20 +56,23 @@ class EmbedFooter(BaseSerializable):
     https://discordapp.com/developers/docs/resources/channel#embed-object-embed-footer-structure
 
     Attributes:
-        text (str): footer text
-        icon_url (str): url of footer icon (only supports http(s) and attachments)
+        text (str): REQUIRED : footer text
+        icon_url (str): url of footer icon (only supports http(s))
+        proxy_icon_url (str): a proxied url of footer icon
     """
     __items__ = ('text', 'icon_url')
 
-    def __init__(self, text: str = None, icon_url: str = None):
+    def __init__(self, text: str, icon_url: str = None, proxy_icon_url: str = None):
         """Initiate the EmbedFooter object
 
         Args:
             text (str): footer text
-            icon_url (str): url of footer icon (only supports http(s) and attachments)
+            icon_url (str): url of footer icon (only supports http(s))
+            proxy_icon_url (str): a proxied url of footer icon
         """
         self.text = text
         self.icon_url = icon_url
+        self.proxy_icon_url = proxy_icon_url
 
     @property
     def text(self) -> str:
@@ -78,7 +81,7 @@ class EmbedFooter(BaseSerializable):
 
     @text.setter
     def text(self, text: str):
-        if text is not None and not isinstance(text, str):
+        if not isinstance(text, str):
             raise TypeError('text must be string')
         if len(text) > 2048:
             raise ValueError('text length must be up to 2048 characters')
@@ -94,6 +97,17 @@ class EmbedFooter(BaseSerializable):
         if icon_url is not None and not isinstance(icon_url, str):
             raise TypeError('icon_url must be string')
         self._icon_url = icon_url
+
+    @property
+    def proxy_icon_url(self) -> str:
+        """str: a proxied url of footer icon"""
+        return self._proxy_icon_url
+
+    @proxy_icon_url.setter
+    def proxy_icon_url(self, proxy_icon_url: str):
+        if proxy_icon_url is not None and not isinstance(proxy_icon_url, str):
+            raise TypeError('proxy_icon_url must be string')
+        self._proxy_icon_url = proxy_icon_url
 
     @staticmethod
     def from_dict(obj: dict) -> 'EmbedFooter':
