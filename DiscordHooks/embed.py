@@ -280,22 +280,32 @@ class EmbedThumbnail(BaseSerializable):
     """Represent the Embed Thumbnail according to Discord Developer Documentation for webhooks
     https://discordapp.com/developers/docs/resources/channel#embed-object-embed-thumbnail-structure
 
+    All fields are optionals
     Attributes:
-        url (str): source url of thumbnail (only supports http(s) and attachments)
+        url (str): source url of thumbnail (only supports http(s))
+        proxy_url (str): a proxied url of the thumbnail
+        height (int): height of thumbnail
+        width (int): width of thumbnail
     """
     __items__ = ('url',)
 
-    def __init__(self, url: str = None):
+    def __init__(self, url: str = None, proxy_url: str = None, height: int = None, width: int = None):
         """Initiate the EmbedThumbnail object
 
         Args:
-            url (str): source url of thumbnail (only supports http(s) and attachments)
+            url (str): source url of thumbnail (only supports http(s))
+            proxy_url (str): a proxied url of the thumbnail
+            height (int): height of thumbnail
+            width (int): width of thumbnail
         """
         self.url = url
+        self.proxy_url = proxy_url
+        self.height = height
+        self.width = width
 
     @property
     def url(self) -> str:
-        """str: source url of thumbnail (only supports http(s) and attachments)"""
+        """str: source url of thumbnail (only supports http(s))"""
         return self._url
 
     @url.setter
@@ -303,6 +313,40 @@ class EmbedThumbnail(BaseSerializable):
         if url is not None and not isinstance(url, str):
             raise TypeError('url must be string')
         self._url = url
+
+    @property
+    def proxy_url(self) -> str:
+        """str: a proxied url of the thumbnail"""
+        return self._proxy_url
+
+    @proxy_url.setter
+    def proxy_url(self, proxy_url: str):
+        if proxy_url is not None and not isinstance(proxy_url, str):
+            raise TypeError('proxy_url must be string')
+        self._proxy_url = proxy_url
+
+    @property
+    def height(self) -> int:
+        """int: height of thumbnail"""
+        return self._height
+
+    @height.setter
+    def height(self, height: int):
+        if height is not None and not isinstance(height, int):
+            raise TypeError('height must be int')
+        self._height = height
+
+    @property
+    def width(self) -> int:
+        """int: width of thumbnail"""
+        return self._width
+
+    @width.setter
+    def width(self, width: int):
+        if width is not None and not isinstance(width, int):
+            raise TypeError('width must be int')
+        self._width = width
+
 
     @staticmethod
     def from_dict(obj: dict) -> 'EmbedThumbnail':
