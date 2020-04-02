@@ -287,7 +287,7 @@ class EmbedThumbnail(BaseSerializable):
         height (int): height of thumbnail
         width (int): width of thumbnail
     """
-    __items__ = ('url',)
+    __items__ = ('url', 'proxy_url', 'height', 'width')
 
     def __init__(self, url: str = None, proxy_url: str = None, height: int = None, width: int = None):
         """Initiate the EmbedThumbnail object
